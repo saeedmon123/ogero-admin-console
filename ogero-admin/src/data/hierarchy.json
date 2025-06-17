@@ -1,0 +1,7 @@
+[
+  { "id": 1, "position": "CEO", "name": "Rami Zain", "reports_to": null },
+  { "id": 2, "position": "CTO", "name": "Sara Deeb", "reports_to": 1 },
+  { "id": 3, "position": "Engineering Manager", "name": "Nadim Sleiman", "reports_to": 2 },
+  { "id": 4, "position": "Frontend Developer", "name": "Mohamad Said Monawar", "reports_to": 3 },
+  { "id": 5, "position": "Backend Developer", "name": "Fadi Kanaan", "reports_to": 3 }
+]

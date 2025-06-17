@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "View Dashboard", "key": "view_dashboard" },
+  { "id": 2, "name": "Edit Users", "key": "edit_users" },
+  { "id": 3, "name": "Delete Records", "key": "delete_records" },
+  { "id": 4, "name": "Manage Roles", "key": "manage_roles" },
+  { "id": 5, "name": "View Logs", "key": "view_logs" }
+]

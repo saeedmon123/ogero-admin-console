@@ -1,0 +1,17 @@
+[
+  { "id": 1, "name": "Layla Haddad", "email": "layla.haddad@example.com", "role": "Admin" },
+  { "id": 2, "name": "Omar Khoury", "email": "omar.khoury@example.com", "role": "Editor" },
+  { "id": 3, "name": "Jad Fares", "email": "jad.fares@example.com", "role": "Viewer" },
+  { "id": 4, "name": "Mira Nassar", "email": "mira.nassar@example.com", "role": "Admin" },
+  { "id": 5, "name": "Tariq El Amin", "email": "tariq.amin@example.com", "role": "Editor" },
+  { "id": 6, "name": "Hana Zein", "email": "hana.zein@example.com", "role": "Viewer" },
+  { "id": 7, "name": "Samir Ghanem", "email": "samir.ghanem@example.com", "role": "Editor" },
+  { "id": 8, "name": "Nour Hamdan", "email": "nour.hamdan@example.com", "role": "Admin" },
+  { "id": 9, "name": "Rayan Dabbous", "email": "rayan.dabbous@example.com", "role": "Viewer" },
+  { "id": 10, "name": "Dina Kassem", "email": "dina.kassem@example.com", "role": "Editor" },
+  { "id": 11, "name": "Khaled Matar", "email": "khaled.matar@example.com", "role": "Viewer" },
+  { "id": 12, "name": "Lina Saad", "email": "lina.saad@example.com", "role": "Admin" },
+  { "id": 13, "name": "Ahmad Fakhoury", "email": "ahmad.fakhoury@example.com", "role": "Editor" },
+  { "id": 14, "name": "Rita Azar", "email": "rita.azar@example.com", "role": "Viewer" },
+  { "id": 15, "name": "Firas Taleb", "email": "firas.taleb@example.com", "role": "Admin" }
+]
