@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './componenets/Sidebar.jsx';
 
@@ -6,18 +5,26 @@ import Users from "./pages/Users";
 import Permissions from "./pages/Permissions";
 import Roles from "./pages/Roles";
 import Hierarchy from "./pages/Hierarchy";
+import NotFound from './pages/Notfound.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 export default function App() {
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transition-colors duration-300">
+      
       <Sidebar />
-     <main className="flex-1 bg-gray-50 p-6 overflow-auto">
-        <Routes>
-          <Route path="/" element={<Users />} />
-          <Route path="/permissions" element={<Permissions />} />
-          <Route path="/roles" element={<Roles />} />
-          <Route path="/hierarchy" element={<Hierarchy />} />
-        </Routes>
+
+      <main className="flex-1 transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-6 py-8">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/permissions" element={<Permissions />} />
+            <Route path="/roles" element={<Roles />} />
+            <Route path="/hierarchy" element={<Hierarchy />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </main>
     </div>
   );
