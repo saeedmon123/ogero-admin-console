@@ -10,22 +10,24 @@ import Dashboard from './pages/Dashboard.jsx';
 
 export default function App() {
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transition-colors duration-300">
+    <div className="relative min-h-screen md:flex bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transition-colors duration-300">
       
+      {/* Sidebar */}
       <Sidebar />
 
-      <main className="flex-1 transition-colors duration-300">
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-6 py-8">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/permissions" element={<Permissions />} />
-            <Route path="/roles" element={<Roles />} />
-            <Route path="/hierarchy" element={<Hierarchy />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </main>
+      {/* Main content area */}
+  <main className="relative z-0 flex-1 transition-colors duration-300">
+  <div className="min-h-screen px-6 py-8">
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/permissions" element={<Permissions />} />
+      <Route path="/roles" element={<Roles />} />
+      <Route path="/hierarchy" element={<Hierarchy />} />
+      <Route path="/users" element={<Users />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </div>
+</main>
     </div>
   );
 }

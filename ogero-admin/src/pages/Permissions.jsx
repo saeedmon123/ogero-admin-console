@@ -55,11 +55,13 @@ const confirmDelete = () => {
       <h2 className="text-2xl font-semibold">Permissions</h2>
       <button
         onClick={() => setShowModal(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md transition hover:bg-blue-700"
+        className="bg-blue-600 text-white px-2 sm:px-4  py-2 rounded-md transition hover:bg-blue-700"
       >
         + Add Permission
       </button>
       </div>
+
+  
      
       <Table columns={columns} data={permissions} onEdit={handleEdit}
         onDelete={handleDelete} />
