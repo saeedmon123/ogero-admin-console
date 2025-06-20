@@ -5,7 +5,7 @@ import Users from "./pages/Users";
 import Permissions from "./pages/Permissions";
 import Roles from "./pages/Roles";
 import Hierarchy from "./pages/Hierarchy";
-import NotFound from './pages/Notfound.jsx';
+import NotFound from './pages/NotFound.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
 export default function App() {
