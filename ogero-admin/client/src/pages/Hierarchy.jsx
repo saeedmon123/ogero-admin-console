@@ -1,6 +1,6 @@
 import hierarchy from "../data/hierarchy.json";
 
-import Table from './../componenets/Table.jsx';
+import Table from '../componenets/Table.jsx';
 const columns = [
   { id: "id", accessorKey: "id", header: "ID" },
   { id: "position", accessorKey: "position", header: "Position" },

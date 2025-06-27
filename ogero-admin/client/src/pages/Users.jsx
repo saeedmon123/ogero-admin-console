@@ -1,9 +1,12 @@
-import users from "../data/users.json";
+
 import { toast } from "sonner";
-import Table from './../componenets/Table.jsx';
-import EditUserModal from './../componenets/EditUserModal.jsx';
-import { useState } from "react";
-import ConfirmDeleteModal from './../componenets/ConfirmDeleteModal.jsx';
+import Table from '../componenets/Table.jsx';
+import EditUserModal from '../componenets/EditUserModal.jsx';
+import { useState,useEffect } from "react";
+import axios from "axios";
+import api  from './../api/api.js';
+
+import ConfirmDeleteModal from '../componenets/ConfirmDeleteModal.jsx';
 const columns = [
   { id: "id", accessorKey: "id", header: "ID" },
   { id: "name", accessorKey: "name", header: "Name" },
@@ -34,16 +37,47 @@ const columns = [
 
 
 export default function Users() {
+  const [users, setUsers] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(api.users.list);
+      setUsers(res.data);
+    } catch (err) {
+      setError("Failed to load users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchUsers();
+}, []);
   const [userToDelete, setUserToDelete] = useState(null);
 
 const handleDelete = (user) => {
   setUserToDelete(user);
 };
+const handleUserUpdate = (updatedUser) => {
+  setUsers(prev =>
+    prev.map(user => (user._id === updatedUser._id ? updatedUser : user))
+  );
+};
 
-const confirmDelete = () => {
-  toast.success("User deleted");
-  setUserToDelete(null);
-  
+const confirmDelete = async () => {
+  try {
+    await axios.delete(api.users.delete(userToDelete._id));
+    toast.success("User deleted");
+
+    
+    setUsers(prev => prev.filter(u => u._id !== userToDelete._id));
+  } catch (error) {
+    toast.error("Failed to delete user");
+  } finally {
+    setUserToDelete(null);
+  }
 };
 
 
@@ -76,7 +110,7 @@ const handleEdit = (user) => {
        {editingUser && (
   <EditUserModal
     user={editingUser}
-  
+    onUpdate={handleUserUpdate}
     onClose={() => setEditingUser(null)}
   />
 )} 

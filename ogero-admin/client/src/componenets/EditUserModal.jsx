@@ -1,19 +1,33 @@
+
 import { useState } from "react";
 import { toast } from "sonner";
+import api from './../api/api.js';
+import axios from "axios";
+export default function EditUserModal({ user,  onClose ,onUpdate}) {
+  const [form, setForm] = useState({ ...user });
 
-export default function EditPermissionModal({ permission, onClose }) {
-  const [form, setForm] = useState({ ...permission });
-
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = () => {
-    if (!form.name || !form.key) {
-      toast.error("Both name and key are required.");
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.role) {
+      toast.error("All fields are required.");
       return;
     }
+    try{
+       const res = await axios.put(api.users.update(form._id), form); // ✅ API call
+      toast.success("User updated");
+      onUpdate(res.data); 
+      onClose();
 
-    toast.success("Permission updated.");
+    }
+    catch (err){
+        toast.error("Failed to update user");
+    }
+
+  
+    toast.success(`Updated user: ${form.name}`);
     onClose();
   };
 
@@ -26,24 +40,34 @@ export default function EditPermissionModal({ permission, onClose }) {
         >
           &times;
         </button>
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Edit Permission</h2>
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Edit User</h2>
 
         <input
           type="text"
           name="name"
           value={form.name}
           onChange={handleChange}
-          placeholder="Permission Name"
+          placeholder="Name"
           className="w-full p-2 border rounded dark:bg-gray-800 dark:text-white"
         />
         <input
-          type="text"
-          name="key"
-          value={form.key}
+          type="email"
+          name="email"
+          value={form.email}
           onChange={handleChange}
-          placeholder="Permission Key"
+          placeholder="Email"
           className="w-full p-2 border rounded dark:bg-gray-800 dark:text-white"
         />
+        <select
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          className="w-full p-2 border rounded dark:bg-gray-800 dark:text-white"
+        >
+          <option value="Admin">Admin</option>
+          <option value="Editor">Editor</option>
+          <option value="Viewer">Viewer</option>
+        </select>
 
         <div className="flex justify-end gap-2 pt-2">
           <button onClick={onClose} className="px-4 py-2 border rounded dark:text-white">

@@ -1,7 +1,8 @@
+
+import { useEffect,useState } from 'react';
+import axios from 'axios';
+import api from './../api/api.js';
 import hierarchy from './../data/hierarchy.json';
-import permissions from './../data/permissions.json';
-import roles from './../data/roles.json';
-import users from './../data/users.json';
 import { toast } from "sonner";
 import {
   BarChart,
@@ -19,6 +20,29 @@ import { parseISO, format, parse } from "date-fns";
 
 
 export default function Dashboard() {
+  const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [permissions, setPermissions] = useState([]);
+    const fetchData = async () => {
+    try {
+      const [usersRes, rolesRes, permsRes, hierarchyRes] = await Promise.all([
+        axios.get(api.users.list),
+        axios.get(api.roles.list),
+        axios.get(api.permissions.list),
+      ]);
+
+      setUsers(usersRes.data);
+      setRoles(rolesRes.data);
+      setPermissions(permsRes.data);
+    } catch {
+      toast.error("Failed to load dashboard data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const summary = {
     "Total Users": users.length,
     "Total Roles": roles.length,
@@ -43,7 +67,7 @@ export default function Dashboard() {
 const growthMap = {};
 
 users.forEach((user) => {
-  const date = parseISO(user.created_at);
+  const date = parseISO(user.createdAt);
   const monthKey = format(date, "MMM yyyy");
   growthMap[monthKey] = (growthMap[monthKey] || 0) + 1;
 });

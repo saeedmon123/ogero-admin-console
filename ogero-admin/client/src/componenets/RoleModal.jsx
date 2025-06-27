@@ -1,11 +1,32 @@
-import { useState } from "react";
-import permissionsList from "../data/permissions.json";
+import { useState,useEffect } from "react";
+
 import { toast } from "sonner";
+import api from './../api/api.js';
+import axios from "axios";
 
 export default function RoleModal({ onAdd, onClose }) {
   const [name, setName] = useState("");
   const [selected, setSelected] = useState([]);
+  const [permissionsList, setPermissionsList] = useState([]);
 
+  const fetchPermissions = async () => {
+    try {
+      const { data } = await axios.get(api.permissions.list);
+      setPermissionsList(data);
+    } catch {
+      toast.error("Failed to load permissions.");
+    }
+  };
+
+  useEffect(() => {
+    fetchPermissions();
+  }, []);
+  
+  const togglePermission = (key) => {
+    setSelected((prev) =>
+      prev.includes(key) ? prev.filter((p) => p !== key) : [...prev, key]
+    );
+  };
   const handleSubmit = () => {
     if (!name || selected.length === 0) {
       return toast.error("Please enter a name and select permissions.");
@@ -26,11 +47,7 @@ export default function RoleModal({ onAdd, onClose }) {
     }
   };
 
-  const togglePermission = (key) => {
-    setSelected((prev) =>
-      prev.includes(key) ? prev.filter((p) => p !== key) : [...prev, key]
-    );
-  };
+ 
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm bg-white/10">

@@ -1,15 +1,16 @@
 import initialRoles from "../data/roles.json";
 
-import Table from './../componenets/Table.jsx';
-import { useState } from "react";
+import Table from '../componenets/Table.jsx';
+import { useState,useEffect } from "react";
 import {toast } from "sonner";
-import RoleModal from './../componenets/RoleModal.jsx';
-import EditRoleModal from './../componenets/EditRoleModal.jsx';
-import ConfirmDeleteModal from './../componenets/ConfirmDeleteModal.jsx';
-
+import RoleModal from '../componenets/RoleModal.jsx';
+import EditRoleModal from '../componenets/EditRoleModal.jsx';
+import ConfirmDeleteModal from '../componenets/ConfirmDeleteModal.jsx';
+import api from './../api/api.js';
+import axios from "axios";
 
 const columns = [
-  { id: "id", accessorKey: "id", header: "ID" },
+  { id: "id", accessorKey: "_id", header: "ID" },
   { id: "name", accessorKey: "name", header: "Name" },
   {
     id: "permissions",
@@ -37,19 +38,53 @@ const columns = [
 
 export default function Roles() {
     const [roleToDelete, setRoleToDelete] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [editingRole, setEditingRole] = useState(null);
+    const [roles, setRoles] = useState([]);
+    
+    const fetchRoles = async () => {
+    try {
+      const { data } = await axios.get(api.roles.list);
+      setRoles(data);
+    } catch (err) {
+      toast.error("Failed to fetch roles.");
+    }
+  };
+
+  useEffect(() => {
+    fetchRoles();
+  }, []);
+
+    const handleAddRole = async (role) => {
+    try {
+      await axios.post(api.roles.create, role);
+      await fetchRoles();
+      toast.success("Role created.");
+    } catch {
+      toast.error("Failed to create role.");
+    }
+  };
+
+
 
 const handleDelete = (role) => {
   setRoleToDelete(role);
 };
 
-const confirmDelete = () => {
-  toast.success("role deleted");
-  setRoleToDelete(null);
+const confirmDelete = async() => {
+ try {
+      await axios.delete(api.roles.delete(roleToDelete._id));
+      await fetchRoles();
+      toast.success("Role deleted.");
+    } catch {
+      toast.error("Failed to delete role.");
+    } finally {
+      setRoleToDelete(null);
+    }
+  };
+
+
   
-};
-
-
-  const [editingRole, setEditingRole] = useState(null);
  const handleEdit = (role) => {
   setEditingRole(role);
 
@@ -57,13 +92,10 @@ const confirmDelete = () => {
   };
 
  
-  const [roles, setRoles] = useState(initialRoles);
-  const [showModal, setShowModal] = useState(false);
+  
 
-  const handleAddRole = (role) => {
-    setRoles((prev) => [...prev, role]);
-    setShowModal(false);
-  };
+
+
 
   return (
     <div className="p-6 space-y-4">
@@ -99,7 +131,10 @@ const confirmDelete = () => {
           <EditRoleModal
             role={editingRole}
           
-            onClose={() => setEditingRole(null)}
+           onClose={() => {
+            setEditingRole(null);
+            fetchRoles(); 
+          }}
           />
         )} 
     </div>

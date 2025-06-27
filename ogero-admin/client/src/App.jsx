@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './componenets/Sidebar.jsx';
 
-import Users from "./pages/Users";
-import Permissions from "./pages/Permissions";
-import Roles from "./pages/Roles";
-import Hierarchy from "./pages/Hierarchy";
+import Users from "./pages/Users.jsx";
+import Permissions from "./pages/Permissions.jsx";
+import Roles from "./pages/Roles.jsx";
+import Hierarchy from "./pages/Hierarchy.jsx";
 import NotFound from './pages/NotFound.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 

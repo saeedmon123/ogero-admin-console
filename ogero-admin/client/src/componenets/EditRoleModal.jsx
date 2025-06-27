@@ -1,27 +1,48 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { toast } from "sonner";
-import permissionsList from "../data/permissions.json";
+
+import axios from "axios";
+import api from './../api/api.js';
 
 export default function EditRoleModal({ role, onClose }) {
   const [form, setForm] = useState({ ...role });
+  const [permissionsList, setPermissionsList] = useState([]);
+  
+  const fetchPermissions = async () => {
+    try {
+      const { data } = await axios.get(api.permissions.list);
+      setPermissionsList(data);
+    } catch {
+      toast.error("Failed to load permissions.");
+    }
+  };
 
-  const togglePermission = (perm) => {
-    setForm((prev) => ({
+  useEffect(() => {
+    fetchPermissions();
+  }, []);
+
+  const togglePermission = (permKey) => {
+  setForm((prev) => ({
       ...prev,
-      permissions: prev.permissions.includes(perm)
-        ? prev.permissions.filter((p) => p !== perm)
-        : [...prev.permissions, perm],
+      permissions: prev.permissions.includes(permKey)
+        ? prev.permissions.filter((p) => p !== permKey)
+        : [...prev.permissions, permKey],
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || form.permissions.length === 0) {
       toast.error("Role name and at least one permission required.");
       return;
     }
  
-    toast.success("Role updated.");
-    onClose();
+    try {
+      await axios.put(api.roles.update(form._id), form);
+      toast.success("Role updated.");
+      onClose();
+    } catch {
+      toast.error("Failed to update role.");
+    }
   };
 
   return (
