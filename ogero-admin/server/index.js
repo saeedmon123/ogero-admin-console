@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
+import authRoutes  from './routes/auth.js';
 // Route imports
 import userRoutes from './routes/user.routes.js';
 import permissionRoutes from './routes/permission.routes.js';
@@ -27,7 +27,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/roles', roleRoutes);
 app.use('/api/permissions', permissionRoutes);
 app.use('/api/hierarchy', hierarchyRoutes);
-
+app.use('/api', authRoutes);
 
 // DB Connection
 mongoose.connect(process.env.MONGO_URI)

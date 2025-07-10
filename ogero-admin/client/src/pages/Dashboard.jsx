@@ -4,6 +4,7 @@ import axios from 'axios';
 import api from './../api/api.js';
 import hierarchy from './../data/hierarchy.json';
 import { toast } from "sonner";
+import { Navigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -20,6 +21,12 @@ import { parseISO, format, parse } from "date-fns";
 
 
 export default function Dashboard() {
+   const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);

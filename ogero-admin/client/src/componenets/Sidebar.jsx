@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import ThemeToggle from "./ThemeToggle.jsx";
 
 const navItems = [
@@ -10,11 +11,20 @@ const navItems = [
   { label: "Hierarchy", path: "/hierarchy" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({setToken}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const closeSidebar = () => setIsOpen(false);
+const navigate = useNavigate();
+
+   const handleLogout = () => {
+    localStorage.removeItem("token");
+     setToken(null);
+    navigate("/login");
+  };
+
+
 
   return (
     <>
@@ -62,6 +72,12 @@ export default function Sidebar() {
         </nav>
 
         <div className="px-6 py-4 border-t border-gray-800 dark:border-gray-200 space-y-3">
+            <button
+            onClick={handleLogout}
+            className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
+          >
+            Logout
+          </button>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} Ogero
           </p>
